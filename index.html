@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="googlebot" content="noindex, nofollow">
+<title>矢作SC 備品持ち出し表</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#D01B31;
+  --red-deep:#9E0F22;
+  --yellow:#F5C518;
+  --ink:#17181A;
+  --ink-soft:#3A3D41;
+  --muted:#74787D;
+  --bg:#FAFAF9;
+  --card:#FFFFFF;
+  --rule:#E4E4E2;
+  --line:#F0F0EE;
+  --ok:#1E7A46;
+  --r:12px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Zen Kaku Gothic New","Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui,sans-serif;
+  font-size:16px;line-height:1.6;
+  -webkit-text-size-adjust:100%;
+  border-top:4px solid var(--red);
+}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px 96px}
+
+/* header — 白地に赤の細いマーク。色面は作らない */
+header{background:var(--card);border-bottom:1px solid var(--rule);padding:20px 16px 17px}
+header .inner{max-width:720px;margin:0 auto}
+header h1{
+  margin:0;font-size:1.3rem;font-weight:900;letter-spacing:-.015em;
+  padding-left:13px;border-left:4px solid var(--red);line-height:1.25;
+}
+header p{margin:7px 0 0 17px;font-size:.79rem;color:var(--muted)}
+.mode{
+  display:inline-flex;align-items:center;gap:6px;margin:11px 0 0 17px;
+  font-size:.71rem;font-weight:700;padding:4px 11px;border-radius:999px;
+  background:var(--line);color:var(--muted);
+}
+.mode::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--muted)}
+.mode.live{background:rgba(30,122,70,.10);color:var(--ok)}
+.mode.live::before{background:var(--ok)}
+
+/* date */
+.datebar{
+  display:flex;align-items:center;gap:6px;background:var(--card);
+  border:1px solid var(--rule);border-radius:var(--r);padding:7px;margin-top:18px;
+}
+.datebar button.nav{
+  flex:0 0 auto;width:44px;height:48px;border-radius:9px;border:0;
+  background:var(--line);font-size:.95rem;color:var(--ink-soft);cursor:pointer;
+}
+.datebar button.nav:active{background:var(--rule)}
+.datebar .cur{flex:1;text-align:center}
+.datebar .cur strong{display:block;font-size:1.22rem;font-weight:900;line-height:1.2;letter-spacing:-.01em}
+.datebar .cur span{font-size:.72rem;color:var(--muted)}
+.datebar input[type=date]{position:absolute;inset:0;opacity:0;width:100%;height:100%;border:0;cursor:pointer}
+.datebar .picker{position:relative;flex:1}
+.today-btn{
+  width:100%;margin-top:7px;padding:8px;border:0;background:transparent;
+  color:var(--muted);font-size:.77rem;cursor:pointer;font-family:inherit;
+}
+
+/* stock — ここが主役 */
+section{margin-top:26px}
+h2{font-size:.82rem;font-weight:700;margin:0 0 11px;display:flex;align-items:baseline;gap:8px;color:var(--ink-soft)}
+h2 .sub{font-size:.75rem;font-weight:400;color:var(--muted)}
+.stock{background:var(--card);border:1px solid var(--rule);border-radius:var(--r);padding:17px 17px 15px;margin-bottom:11px}
+.stock .top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.stock .nm{font-weight:700;font-size:1rem;letter-spacing:.01em}
+.stock .ct{font-variant-numeric:tabular-nums;line-height:1;display:flex;align-items:baseline;gap:1px}
+.stock .ct b{font-size:2.35rem;font-weight:900;letter-spacing:-.04em}
+.stock .ct .den{font-size:1.05rem;font-weight:700;color:var(--muted)}
+.pips{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px}
+.pip{width:23px;height:30px;border-radius:4px;background:var(--line);border:1px solid var(--rule)}
+.pip.used{border-color:transparent}
+.pip.over{background:repeating-linear-gradient(45deg,var(--ink) 0 3px,var(--yellow) 3px 6px);border-color:var(--ink)}
+.left-n{margin-top:12px;font-size:.81rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.stock.short .ct b{color:var(--red)}
+.stock.short{border-color:var(--ink)}
+.short-msg{
+  display:block;margin-top:12px;font-size:.81rem;font-weight:700;
+  background:var(--yellow);color:var(--ink);padding:9px 12px;border-radius:7px;
+}
+.breakdown{display:flex;flex-wrap:wrap;gap:6px;margin-top:13px;padding-top:13px;border-top:1px solid var(--line)}
+.chip{font-size:.75rem;padding:4px 10px;border-radius:7px;background:var(--line);color:var(--ink-soft);font-variant-numeric:tabular-nums;font-weight:500}
+.chip.none{background:transparent;color:var(--muted);padding-left:0}
+
+/* buttons */
+.primary{
+  display:block;width:100%;padding:17px;border:0;border-radius:var(--r);
+  background:var(--red);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;
+  font-family:inherit;margin-top:16px;letter-spacing:.02em;
+}
+.primary:active{background:var(--red-deep)}
+.primary:disabled{background:var(--rule);color:var(--muted);cursor:default}
+.ghost{
+  display:block;width:100%;padding:12px;border:1px solid var(--rule);border-radius:var(--r);
+  background:var(--card);color:var(--ink-soft);font-size:.84rem;cursor:pointer;font-family:inherit;margin-top:9px;
+}
+
+/* list */
+.tabs{display:flex;gap:0;margin-bottom:13px;border-bottom:1px solid var(--rule)}
+.tabs button{
+  flex:1;padding:11px 4px;border:0;background:transparent;
+  font-size:.83rem;font-family:inherit;cursor:pointer;color:var(--muted);
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+}
+.tabs button[aria-selected=true]{color:var(--ink);font-weight:700;border-bottom-color:var(--red)}
+.entry{background:var(--card);border:1px solid var(--rule);border-radius:var(--r);padding:15px;margin-bottom:10px}
+.entry.active{border-left:3px solid var(--red);padding-left:13px}
+.entry.overdue{border-color:var(--ink);border-left:3px solid var(--yellow);padding-left:13px}
+.entry.done{opacity:.55}
+.entry .r1{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.entry .cat{font-weight:900;font-size:1.06rem;letter-spacing:-.01em}
+.entry .dates{font-size:.77rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.entry .items{margin:9px 0 0;display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:.78rem;font-weight:700;padding:3px 10px;border-radius:6px;font-variant-numeric:tabular-nums}
+.entry .meta{margin-top:9px;font-size:.78rem;color:var(--muted)}
+.entry .acts{display:flex;gap:7px;margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
+.entry .acts button{padding:8px 14px;border-radius:8px;border:1px solid var(--rule);background:var(--card);font-size:.78rem;font-family:inherit;cursor:pointer;color:var(--ink-soft)}
+.entry .acts .ret{border-color:var(--ok);color:var(--ok);font-weight:700}
+.entry .acts .del{color:var(--muted);border-color:transparent}
+.flag{display:inline-block;font-size:.74rem;font-weight:700;margin-top:9px;background:var(--yellow);color:var(--ink);padding:3px 10px;border-radius:5px}
+.empty{padding:34px 18px;text-align:center;color:var(--muted);font-size:.85rem;border:1px dashed var(--rule);border-radius:var(--r);line-height:1.7}
+
+/* sheet */
+.sheet{position:fixed;inset:0;background:rgba(23,24,26,.55);display:none;align-items:flex-end;justify-content:center;z-index:50}
+.sheet[open]{display:flex}
+.sheet .panel{
+  background:var(--bg);width:100%;max-width:720px;max-height:92vh;overflow-y:auto;
+  border-radius:18px 18px 0 0;padding:20px 17px calc(22px + env(safe-area-inset-bottom));
+}
+.sheet h3{margin:0 0 16px;font-size:1.08rem;font-weight:900;padding-left:11px;border-left:3px solid var(--red)}
+label{display:block;font-size:.78rem;font-weight:700;margin:14px 0 6px;color:var(--ink-soft)}
+input[type=text],input[type=number],input[type=date],input[type=password],select,textarea{
+  width:100%;padding:12px;border:1px solid var(--rule);border-radius:9px;background:var(--card);
+  font-size:16px;font-family:inherit;color:var(--ink);
+}
+textarea{min-height:74px;resize:vertical}
+.qtyrow{display:flex;align-items:center;gap:10px;margin-bottom:8px;background:var(--card);border:1px solid var(--rule);border-radius:9px;padding:8px 10px}
+.qtyrow .nm{flex:1;font-size:.88rem;font-weight:700}
+.qtyrow input{width:82px;text-align:center;border-radius:7px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sheet .row{display:flex;gap:9px;margin-top:20px}
+.sheet .row button{flex:1;padding:15px;border-radius:10px;font-size:.95rem;font-family:inherit;cursor:pointer;border:1px solid var(--rule);background:var(--card);color:var(--ink-soft)}
+.sheet .row button.save{background:var(--red);color:#fff;border-color:var(--red);font-weight:700}
+.hint{font-size:.75rem;color:var(--muted);margin-top:6px;line-height:1.6}
+.warn{font-size:.8rem;font-weight:700;margin-top:12px;background:var(--yellow);color:var(--ink);padding:10px 12px;border-radius:7px}
+
+/* settings */
+details.settings{margin-top:30px;border-top:1px solid var(--rule);padding-top:15px}
+details.settings summary{font-size:.83rem;font-weight:700;cursor:pointer;color:var(--muted)}
+details.settings .body{padding-top:13px}
+.setblock{background:var(--card);border:1px solid var(--rule);border-radius:var(--r);padding:16px;margin-bottom:11px}
+.setblock h4{margin:0 0 11px;font-size:.85rem}
+.tokens{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.token{display:flex;align-items:center;gap:4px;background:var(--line);border-radius:7px;padding:4px 5px 4px 11px;font-size:.79rem}
+.token button{border:0;background:transparent;cursor:pointer;color:var(--muted);font-size:1rem;line-height:1;padding:0 5px}
+.addrow{display:flex;gap:8px;margin-top:10px}
+.addrow input{flex:1}
+.addrow button{padding:0 16px;border:1px solid var(--rule);background:var(--card);border-radius:9px;font-family:inherit;cursor:pointer;color:var(--ink-soft)}
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translateX(-50%);
+  background:var(--ink);color:#fff;padding:12px 22px;border-radius:999px;
+  font-size:.84rem;z-index:80;opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.toast.show{opacity:1}
+
+/* gate */
+#gate{position:fixed;inset:0;z-index:100;background:var(--ink);display:flex;align-items:center;justify-content:center;padding:26px}
+#gate[hidden]{display:none}
+#gate .box{width:100%;max-width:330px;color:#fff;text-align:left}
+#gate h2{font-size:1.2rem;font-weight:900;margin:0 0 7px;display:block;color:#fff;padding-left:12px;border-left:4px solid var(--red);letter-spacing:-.01em}
+#gate p{font-size:.81rem;color:#9C9FA4;margin:0 0 20px 16px;line-height:1.6}
+#gate input{margin-bottom:11px;background:#232528;border-color:#33363A;color:#fff}
+#gate button{width:100%;padding:15px;border:0;border-radius:10px;background:var(--red);color:#fff;font-size:.95rem;font-weight:700;font-family:inherit;cursor:pointer}
+#gate .err{color:var(--yellow);font-size:.79rem;font-weight:700;margin-top:11px;min-height:1.2em}
+
+:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div id="gate" hidden>
+  <div class="box">
+    <h2>矢作SC 備品持ち出し表</h2>
+    <p>コーチ用のページです。合言葉を入力してください。</p>
+    <input type="password" id="gatePw" inputmode="text" autocomplete="off" placeholder="合言葉" aria-label="合言葉">
+    <button id="gateGo">開く</button>
+    <div class="err" id="gateErr"></div>
+  </div>
+</div>
+
+<header>
+  <div class="inner">
+    <h1>矢作SC 備品持ち出し表</h1>
+    <p>ベンチ・タープの使用予定を、カテゴリー間で見えるようにする表です。</p>
+    <span class="mode" id="mode">端末内に保存中（この端末だけ）</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="datebar">
+    <button class="nav" id="prev" aria-label="前の日">◀</button>
+    <div class="picker">
+      <div class="cur"><strong id="dLabel">–</strong><span id="dSub">–</span></div>
+      <input type="date" id="dInput" aria-label="日付を選ぶ">
+    </div>
+    <button class="nav" id="next" aria-label="次の日">▶</button>
+  </div>
+  <button class="today-btn" id="todayBtn">今日に戻す</button>
+
+  <section>
+    <h2>この日の使用予定 <span class="sub" id="stockSub"></span></h2>
+    <div id="stockList"></div>
+    <button class="primary" id="openAdd">持ち出しを登録</button>
+    <button class="ghost" id="shareBtn">この日の予定をコピー（LINE貼り付け用）</button>
+  </section>
+
+  <section>
+    <h2>持ち出し一覧</h2>
+    <div class="tabs" role="tablist">
+      <button role="tab" data-tab="upcoming" aria-selected="true">使用中・予定</button>
+      <button role="tab" data-tab="unreturned" aria-selected="false">未返却</button>
+      <button role="tab" data-tab="done" aria-selected="false">返却済み</button>
+    </div>
+    <div id="list"></div>
+  </section>
+
+  <details class="settings">
+    <summary>設定（在庫数・カテゴリー・共有）</summary>
+    <div class="body">
+
+      <div class="setblock">
+        <h4>備品の在庫数</h4>
+        <div id="stockEdit"></div>
+        <div class="addrow">
+          <input type="text" id="newItem" placeholder="備品名を追加（例：ゴールネット）">
+          <button id="addItem">追加</button>
+        </div>
+      </div>
+
+      <div class="setblock">
+        <h4>カテゴリー</h4>
+        <div class="tokens" id="catTokens"></div>
+        <div class="addrow">
+          <input type="text" id="newCat" placeholder="カテゴリーを追加">
+          <button id="addCat">追加</button>
+        </div>
+      </div>
+
+      <div class="setblock">
+        <h4>全コーチで共有する（Firebase）</h4>
+        <p class="hint">U-9アプリと同じ Firebase プロジェクトの firebaseConfig を、そのまま貼り付けてください。データは <code>equipment/2026/</code> 以下に入るので、U-9の記録には触れません。databaseURL が必須です。</p>
+        <textarea id="fbCfg" placeholder='{ "apiKey": "...", "authDomain": "...", "databaseURL": "https://yahagi-u9-default-rtdb.asia-southeast1.firebasedatabase.app", "projectId": "yahagi-u9", "appId": "..." }'></textarea>
+        <div class="addrow">
+          <button id="fbSave" style="flex:1">接続して共有を始める</button>
+          <button id="fbClear">解除</button>
+        </div>
+        <p class="hint" id="fbMsg"></p>
+      </div>
+
+      <div class="setblock">
+        <h4>データ</h4>
+        <button class="ghost" id="exportBtn" style="margin-top:0">JSONで書き出す</button>
+      </div>
+
+    </div>
+  </details>
+</div>
+
+<!-- 登録シート -->
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="持ち出しを登録">
+  <div class="panel">
+    <h3 id="sheetTitle">持ち出しを登録</h3>
+
+    <label for="fCat">カテゴリー</label>
+    <select id="fCat"></select>
+
+    <label>持ち出す個数</label>
+    <div id="fItems"></div>
+
+    <div class="grid2">
+      <div>
+        <label for="fStart">使用開始日</label>
+        <input type="date" id="fStart">
+      </div>
+      <div>
+        <label for="fEnd">返却予定日</label>
+        <input type="date" id="fEnd">
+      </div>
+    </div>
+    <p class="hint">同じ日に返す場合は、開始日と同じ日にしてください。</p>
+
+    <label for="fPurpose">用途</label>
+    <select id="fPurpose">
+      <option>練習試合</option>
+      <option>公式戦・大会</option>
+      <option>通常練習</option>
+      <option>イベント</option>
+      <option>その他</option>
+    </select>
+
+    <label for="fPerson">持ち出した人</label>
+    <input type="text" id="fPerson" placeholder="例：平城">
+
+    <label for="fNote">メモ（任意）</label>
+    <input type="text" id="fNote" placeholder="例：城山公園グラウンド">
+
+    <p class="warn" id="fWarn" hidden></p>
+
+    <div class="row">
+      <button id="cancelBtn">やめる</button>
+      <button class="save" id="saveBtn">登録する</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+
+// ===== ここに U-9アプリと同じ firebaseConfig を貼り付けると、全員が自動で共有に繋がります =====
+var FIREBASE_CONFIG = {
+  apiKey: "AIzaSyB_yNKy3YRYo_vL0Dj6whqi7TTubj_Spb0",
+  authDomain: "yahagi-equipment.firebaseapp.com",
+  databaseURL: "https://yahagi-equipment-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "yahagi-equipment",
+  storageBucket: "yahagi-equipment.firebasestorage.app",
+  messagingSenderId: "648550517173",
+  appId: "1:648550517173:web:461268d0ca2121a4d7f1fc"
+};
+// ==========================================================================================
+
+var FIREBASE_VERSION = "10.12.2";
+var DB_ROOT = "equipment/2026";      // U-9アプリの seasons/ とは別の枝
+var PASSCODE = "yahagi2026";
+var LS = { data:"yahagi_eq_entries", meta:"yahagi_eq_meta", cfg:"yahagi_eq_fbcfg", gate:"yahagi_eq_gate" };
+
+var DEFAULT_META = {
+  stock: { "ベンチ": 10, "タープ": 4 },
+  categories: ["U-8","U-9","U-10","U-11","U-12","女子","全体・その他"]
+};
+var PALETTE = [
+  {bg:"#D01B31",fg:"#FFFFFF"},  // ベンチ：クラブの赤
+  {bg:"#2B2E32",fg:"#FFFFFF"},  // タープ：チャコール
+  {bg:"#9E0F22",fg:"#FFFFFF"},
+  {bg:"#5C6066",fg:"#FFFFFF"},
+  {bg:"#7A4C2E",fg:"#FFFFFF"},
+  {bg:"#3F5A6B",fg:"#FFFFFF"}
+];
+
+var state = { entries: [], meta: null, date: todayStr(), tab: "upcoming", editing: null };
+var remote = null; // {setEntry, delEntry, setMeta}
+var syncPending = false;
+
+function setSyncPending(on){
+  syncPending = on;
+  var btn = document.getElementById("openAdd");
+  btn.disabled = on;
+  btn.textContent = on ? "共有データを読み込んでいます…" : "持ち出しを登録";
+}
+
+/* ---------- helpers ---------- */
+function todayStr(){ return toStr(new Date()); }
+function toStr(d){
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function parse(s){ var p=String(s||"").split("-"); return new Date(+p[0], +p[1]-1, +p[2]); }
+function shiftDay(s,n){ var d=parse(s); d.setDate(d.getDate()+n); return toStr(d); }
+function fmtMD(s){ var d=parse(s); return (d.getMonth()+1)+"/"+d.getDate(); }
+function fmtFull(s){
+  var d=parse(s), w=["日","月","火","水","木","金","土"][d.getDay()];
+  return (d.getMonth()+1)+"月"+d.getDate()+"日（"+w+"）";
+}
+function esc(s){
+  return String(s==null?"":s).replace(/[&<>"']/g,function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+  });
+}
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
+function itemStyle(name){
+  var keys = Object.keys(state.meta.stock);
+  var i = keys.indexOf(name);
+  return PALETTE[(i<0?0:i) % PALETTE.length];
+}
+function itemColor(name){ return itemStyle(name).bg; }
+function toast(msg){
+  var t=document.getElementById("toast");
+  t.textContent=msg; t.classList.add("show");
+  clearTimeout(toast._t); toast._t=setTimeout(function(){ t.classList.remove("show"); },2200);
+}
+
+/* ---------- storage ---------- */
+function loadLocal(){
+  try{
+    var e=localStorage.getItem(LS.data), m=localStorage.getItem(LS.meta);
+    state.entries = e ? JSON.parse(e) : [];
+    state.meta = m ? JSON.parse(m) : JSON.parse(JSON.stringify(DEFAULT_META));
+  }catch(err){
+    state.entries=[]; state.meta=JSON.parse(JSON.stringify(DEFAULT_META));
+  }
+  if(!state.meta.stock || !Object.keys(state.meta.stock).length) state.meta.stock = JSON.parse(JSON.stringify(DEFAULT_META.stock));
+  if(!Array.isArray(state.meta.categories) || !state.meta.categories.length) state.meta.categories = DEFAULT_META.categories.slice();
+}
+function saveLocal(){
+  try{
+    localStorage.setItem(LS.data, JSON.stringify(state.entries));
+    localStorage.setItem(LS.meta, JSON.stringify(state.meta));
+  }catch(err){}
+}
+function putEntry(entry){
+  var i = state.entries.findIndex(function(x){ return x.id===entry.id; });
+  if(i>=0) state.entries[i]=entry; else state.entries.push(entry);
+  saveLocal();
+  if(remote) remote.setEntry(entry);
+  render();
+}
+function removeEntry(id){
+  state.entries = state.entries.filter(function(x){ return x.id!==id; });
+  saveLocal();
+  if(remote) remote.delEntry(id);
+  render();
+}
+function saveMeta(){
+  saveLocal();
+  if(remote) remote.setMeta(state.meta);
+  render();
+}
+
+/* ---------- computation ---------- */
+function activeOn(dateStr){
+  return state.entries.filter(function(e){
+    if(e.returned) return false;
+    return e.start <= dateStr && dateStr <= e.end;
+  });
+}
+function usageOn(dateStr){
+  var use = {};
+  Object.keys(state.meta.stock).forEach(function(k){ use[k]=0; });
+  activeOn(dateStr).forEach(function(e){
+    Object.keys(e.items||{}).forEach(function(k){
+      use[k] = (use[k]||0) + (e.items[k]||0);
+    });
+  });
+  return use;
+}
+function isOverdue(e){ return !e.returned && e.end < todayStr(); }
+function itemsText(e){
+  return Object.keys(e.items||{}).filter(function(k){ return e.items[k]>0; })
+    .map(function(k){ return k+e.items[k]; }).join("・");
+}
+
+/* ---------- render ---------- */
+function render(){
+  renderDate();
+  renderStock();
+  renderList();
+  renderSettings();
+}
+
+function renderDate(){
+  document.getElementById("dLabel").textContent = fmtFull(state.date);
+  document.getElementById("dInput").value = state.date;
+  var diff = Math.round((parse(state.date)-parse(todayStr()))/86400000);
+  var sub = diff===0 ? "今日" : diff===1 ? "明日" : diff===-1 ? "昨日" : (diff>0 ? diff+"日後" : (-diff)+"日前");
+  document.getElementById("dSub").textContent = sub;
+}
+
+function renderStock(){
+  var use = usageOn(state.date);
+  var actives = activeOn(state.date);
+  var host = document.getElementById("stockList");
+  document.getElementById("stockSub").textContent = actives.length ? actives.length+"件" : "";
+  host.innerHTML = "";
+
+  Object.keys(state.meta.stock).forEach(function(name){
+    var total = state.meta.stock[name]||0;
+    var used = use[name]||0;
+    var left = total-used;
+    var short = used>total;
+    var color = itemColor(name);
+
+    var box = document.createElement("div");
+    box.className = "stock" + (short?" short":"");
+
+    var pips = "";
+    var shown = Math.max(total, used);
+    for(var i=0;i<shown;i++){
+      if(i<used && i<total) pips += '<div class="pip used" style="background:'+color+'"></div>';
+      else if(i<used) pips += '<div class="pip over"></div>';
+      else pips += '<div class="pip"></div>';
+    }
+
+    var parts = actives.map(function(e){
+      var n = (e.items||{})[name]||0;
+      return n>0 ? '<span class="chip">'+esc(e.category)+" "+n+"</span>" : "";
+    }).filter(Boolean).join("");
+    if(!parts) parts = '<span class="chip none">予定なし</span>';
+
+    box.innerHTML =
+      '<div class="top"><div class="nm">'+esc(name)+'</div>'+
+      '<div class="ct"><b>'+used+'</b><span class="den">/'+total+'</span></div></div>'+
+      '<div class="pips">'+pips+'</div>'+
+      '<div class="left-n">'+(short ? "在庫を "+(used-total)+" 個オーバー" : "残り "+left+" 個")+'</div>'+
+      (short ? '<div class="short-msg">どこかのカテゴリーで数を調整する必要があります。</div>' : "")+
+      '<div class="breakdown">'+parts+'</div>';
+    host.appendChild(box);
+  });
+}
+
+function renderList(){
+  var host = document.getElementById("list");
+  var today = todayStr();
+  var rows;
+
+  if(state.tab==="upcoming"){
+    rows = state.entries.filter(function(e){ return !e.returned && e.end>=today; })
+      .sort(function(a,b){ return a.start.localeCompare(b.start); });
+  }else if(state.tab==="unreturned"){
+    rows = state.entries.filter(function(e){ return !e.returned && e.end<today; })
+      .sort(function(a,b){ return a.end.localeCompare(b.end); });
+  }else{
+    rows = state.entries.filter(function(e){ return e.returned; })
+      .sort(function(a,b){ return (b.returnedAt||"").localeCompare(a.returnedAt||""); }).slice(0,40);
+  }
+
+  if(!rows.length){
+    var msg = state.tab==="upcoming" ? "まだ登録がありません。「持ち出しを登録」から追加してください。"
+      : state.tab==="unreturned" ? "未返却はありません。"
+      : "返却済みの記録はまだありません。";
+    host.innerHTML = '<div class="empty">'+msg+"</div>";
+    return;
+  }
+
+  host.innerHTML = rows.map(function(e){
+    var od = isOverdue(e);
+    var cls = e.returned ? "done" : od ? "overdue" : (e.start<=today && today<=e.end ? "active" : "");
+    var tags = Object.keys(e.items||{}).filter(function(k){ return e.items[k]>0; })
+      .map(function(k){
+        var st = itemStyle(k);
+        return '<span class="tag" style="background:'+st.bg+';color:'+st.fg+'">'+esc(k)+" "+e.items[k]+"</span>";
+      }).join("");
+    var span = e.start===e.end ? fmtMD(e.start) : fmtMD(e.start)+"〜"+fmtMD(e.end);
+    var meta = [e.purpose, e.person ? e.person+"さん" : "", e.note].filter(Boolean).map(esc).join("　/　");
+
+    return '<div class="entry '+cls+'">'+
+      '<div class="r1"><div class="cat">'+esc(e.category)+'</div><div class="dates">'+span+'</div></div>'+
+      '<div class="items">'+tags+'</div>'+
+      (meta ? '<div class="meta">'+meta+"</div>" : "")+
+      (od ? '<div class="flag">返却予定日を過ぎています</div>' : "")+
+      (e.returned && e.returnedAt ? '<div class="meta">'+fmtMD(e.returnedAt)+" 返却済み</div>" : "")+
+      '<div class="acts">'+
+        (e.returned
+          ? '<button data-act="unreturn" data-id="'+e.id+'">返却を取り消す</button>'
+          : '<button class="ret" data-act="return" data-id="'+e.id+'">返却した</button>')+
+        '<button data-act="edit" data-id="'+e.id+'">編集</button>'+
+        '<button class="del" data-act="del" data-id="'+e.id+'">削除</button>'+
+      "</div></div>";
+  }).join("");
+}
+
+function renderSettings(){
+  var se = document.getElementById("stockEdit");
+  se.innerHTML = "";
+  Object.keys(state.meta.stock).forEach(function(name){
+    var row = document.createElement("div");
+    row.className = "qtyrow";
+    row.innerHTML = '<span class="nm">'+esc(name)+'</span>'+
+      '<input type="number" min="0" value="'+(state.meta.stock[name]||0)+'" data-stock="'+esc(name)+'">'+
+      '<button data-rmitem="'+esc(name)+'" style="border:1px solid var(--rule);background:#fff;border-radius:8px;padding:8px 12px;font-family:inherit;cursor:pointer;color:var(--muted)">削除</button>';
+    se.appendChild(row);
+  });
+
+  document.getElementById("catTokens").innerHTML = state.meta.categories.map(function(c){
+    return '<span class="token">'+esc(c)+'<button data-rmcat="'+esc(c)+'" aria-label="削除">×</button></span>';
+  }).join("");
+}
+
+/* ---------- sheet ---------- */
+function openSheet(entry){
+  state.editing = entry || null;
+  var sel = document.getElementById("fCat");
+  sel.innerHTML = state.meta.categories.map(function(c){ return '<option>'+esc(c)+"</option>"; }).join("");
+
+  var box = document.getElementById("fItems");
+  box.innerHTML = Object.keys(state.meta.stock).map(function(name){
+    var v = entry && entry.items ? (entry.items[name]||0) : 0;
+    return '<div class="qtyrow"><span class="nm">'+esc(name)+
+      '（在庫'+(state.meta.stock[name]||0)+'）</span>'+
+      '<input type="number" min="0" value="'+v+'" data-qty="'+esc(name)+'"></div>';
+  }).join("");
+
+  document.getElementById("sheetTitle").textContent = entry ? "持ち出しを編集" : "持ち出しを登録";
+  document.getElementById("saveBtn").textContent = entry ? "更新する" : "登録する";
+  sel.value = entry ? entry.category : state.meta.categories[0];
+  document.getElementById("fStart").value = entry ? entry.start : state.date;
+  document.getElementById("fEnd").value = entry ? entry.end : state.date;
+  document.getElementById("fPurpose").value = entry && entry.purpose ? entry.purpose : "練習試合";
+  document.getElementById("fPerson").value = entry ? (entry.person||"") : (localStorage.getItem("yahagi_eq_person")||"");
+  document.getElementById("fNote").value = entry ? (entry.note||"") : "";
+  document.getElementById("fWarn").hidden = true;
+  document.getElementById("sheet").setAttribute("open","");
+}
+function closeSheet(){
+  document.getElementById("sheet").removeAttribute("open");
+  state.editing = null;
+}
+
+function collectItems(){
+  var items = {};
+  Array.prototype.forEach.call(document.querySelectorAll("[data-qty]"), function(inp){
+    var n = parseInt(inp.value,10);
+    if(n>0) items[inp.getAttribute("data-qty")] = n;
+  });
+  return items;
+}
+
+function checkConflict(candidate){
+  var msgs = [];
+  var d = candidate.start;
+  var guard = 0;
+  while(d <= candidate.end && guard < 120){
+    var use = usageOn(d);
+    Object.keys(candidate.items).forEach(function(k){
+      var others = use[k]||0;
+      if(state.editing){
+        var prev = (state.editing.items||{})[k]||0;
+        if(state.editing.start <= d && d <= state.editing.end) others -= prev;
+      }
+      var total = state.meta.stock[k]||0;
+      if(others + candidate.items[k] > total){
+        msgs.push(fmtMD(d)+"は"+k+"が"+(others+candidate.items[k]-total)+"個足りません（在庫"+total+"・他"+others+"）");
+      }
+    });
+    d = shiftDay(d,1); guard++;
+  }
+  return msgs.slice(0,3);
+}
+
+function save(){
+  var items = collectItems();
+  var start = document.getElementById("fStart").value;
+  var end = document.getElementById("fEnd").value || start;
+  var warn = document.getElementById("fWarn");
+
+  if(!Object.keys(items).length){ warn.hidden=false; warn.textContent="個数を1つ以上入力してください。"; return; }
+  if(!start){ warn.hidden=false; warn.textContent="使用開始日を入力してください。"; return; }
+  if(end < start){ warn.hidden=false; warn.textContent="返却予定日が開始日より前になっています。"; return; }
+
+  var entry = {
+    id: state.editing ? state.editing.id : uid(),
+    category: document.getElementById("fCat").value,
+    items: items,
+    start: start,
+    end: end,
+    purpose: document.getElementById("fPurpose").value,
+    person: document.getElementById("fPerson").value.trim(),
+    note: document.getElementById("fNote").value.trim(),
+    returned: state.editing ? !!state.editing.returned : false,
+    returnedAt: state.editing ? (state.editing.returnedAt||null) : null,
+    updatedAt: new Date().toISOString()
+  };
+
+  var conflicts = checkConflict(entry);
+  if(conflicts.length && warn.dataset.ack !== entry.id){
+    warn.hidden=false;
+    warn.textContent = conflicts.join(" / ")+"　このまま登録する場合はもう一度押してください。";
+    warn.dataset.ack = entry.id;
+    return;
+  }
+  delete warn.dataset.ack;
+
+  var wasEdit = !!state.editing;
+  if(entry.person) localStorage.setItem("yahagi_eq_person", entry.person);
+  putEntry(entry);
+  closeSheet();
+  toast(wasEdit ? "更新しました" : "登録しました");
+}
+
+/* ---------- share text ---------- */
+function shareText(){
+  var use = usageOn(state.date);
+  var actives = activeOn(state.date);
+  var head = "【備品持ち出し "+fmtFull(state.date)+"】";
+  var stockLine = Object.keys(state.meta.stock).map(function(k){
+    return k+" "+(use[k]||0)+"/"+(state.meta.stock[k]||0);
+  }).join("　");
+  var lines = actives.map(function(e){
+    var span = e.start===e.end ? fmtMD(e.start) : fmtMD(e.start)+"〜"+fmtMD(e.end);
+    return "・"+e.category+" "+itemsText(e)+"（"+[e.purpose,e.person].filter(Boolean).join("／")+"）"+span;
+  });
+  if(!lines.length) lines = ["・持ち出し予定なし"];
+  return [head, stockLine, ""].concat(lines).join("\n");
+}
+
+/* ---------- firebase ---------- */
+function setMode(text, live){
+  var el = document.getElementById("mode");
+  el.textContent = text;
+  el.className = "mode" + (live ? " live" : "");
+}
+
+function connectFirebase(cfgText, announce){
+  var cfg;
+  try{ cfg = JSON.parse(cfgText); }
+  catch(err){
+    document.getElementById("fbMsg").textContent = "設定が JSON として読み取れませんでした。{ } ごと貼り付けてください。";
+    setSyncPending(false); return;
+  }
+  if(!cfg.databaseURL){
+    document.getElementById("fbMsg").textContent = "databaseURL が見つかりません。Realtime Database を使うので、databaseURL を含む firebaseConfig を貼り付けてください。";
+    setSyncPending(false); return;
+  }
+  setMode("接続中…", false);
+
+  Promise.all([
+    import("https://www.gstatic.com/firebasejs/"+FIREBASE_VERSION+"/firebase-app.js"),
+    import("https://www.gstatic.com/firebasejs/"+FIREBASE_VERSION+"/firebase-database.js"),
+    import("https://www.gstatic.com/firebasejs/"+FIREBASE_VERSION+"/firebase-auth.js").catch(function(){ return null; })
+  ]).then(function(mods){
+    var appMod = mods[0], rt = mods[1], authMod = mods[2];
+    var app = appMod.initializeApp(cfg, "yahagi-eq-"+Date.now());
+
+    function start(){
+      var db = rt.getDatabase(app);
+      var entriesRef = rt.ref(db, DB_ROOT+"/entries");
+      var metaRef = rt.ref(db, DB_ROOT+"/meta");
+
+      remote = {
+        setEntry: function(e){
+          rt.set(rt.ref(db, DB_ROOT+"/entries/"+e.id), e).catch(function(){ toast("同期できませんでした"); });
+        },
+        delEntry: function(id){ rt.remove(rt.ref(db, DB_ROOT+"/entries/"+id)).catch(function(){}); },
+        setMeta: function(m){ rt.set(metaRef, m).catch(function(){}); }
+      };
+
+      rt.onValue(entriesRef, function(snap){
+        var v = snap.val() || {};
+        state.entries = Object.keys(v).map(function(k){ return v[k]; });
+        saveLocal(); render();
+      }, function(){ setSyncPending(false); setMode("読み込めません（データベースのルールを確認）", false); });
+
+      rt.onValue(metaRef, function(snap){
+        var v = snap.val();
+        if(v && v.stock){ state.meta = v; saveLocal(); render(); }
+        else { rt.set(metaRef, state.meta).catch(function(){}); }
+      }, function(){});
+
+      try{ localStorage.setItem(LS.cfg, cfgText); }catch(err){}
+      setSyncPending(false);
+      setMode("全コーチで共有中（"+(cfg.projectId||"接続済み")+"）", true);
+      document.getElementById("fbMsg").textContent = "接続しました。";
+      if(announce) toast("共有を開始しました");
+    }
+
+    if(authMod && authMod.signInAnonymously){
+      authMod.signInAnonymously(authMod.getAuth(app)).then(start).catch(function(){ start(); });
+    } else { start(); }
+  }).catch(function(err){
+    setSyncPending(false);
+    setMode("端末内に保存中（この端末だけ）", false);
+    document.getElementById("fbMsg").textContent = "接続できませんでした：" + (err && err.message ? err.message : "不明なエラー");
+  });
+}
+
+/* ---------- events ---------- */
+document.getElementById("prev").onclick = function(){ state.date = shiftDay(state.date,-1); render(); };
+document.getElementById("next").onclick = function(){ state.date = shiftDay(state.date, 1); render(); };
+document.getElementById("todayBtn").onclick = function(){ state.date = todayStr(); render(); };
+document.getElementById("dInput").onchange = function(e){ if(e.target.value){ state.date=e.target.value; render(); } };
+
+document.getElementById("openAdd").onclick = function(){ openSheet(null); };
+document.getElementById("cancelBtn").onclick = closeSheet;
+document.getElementById("saveBtn").onclick = save;
+document.getElementById("sheet").addEventListener("click", function(e){
+  if(e.target.id==="sheet") closeSheet();
+});
+
+document.getElementById("shareBtn").onclick = function(){
+  var txt = shareText();
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){ toast("コピーしました"); },
+      function(){ window.prompt("コピーしてください", txt); });
+  } else { window.prompt("コピーしてください", txt); }
+};
+
+document.querySelectorAll(".tabs button").forEach(function(b){
+  b.onclick = function(){
+    document.querySelectorAll(".tabs button").forEach(function(x){ x.setAttribute("aria-selected","false"); });
+    b.setAttribute("aria-selected","true");
+    state.tab = b.dataset.tab; renderList();
+  };
+});
+
+document.getElementById("list").addEventListener("click", function(ev){
+  var btn = ev.target.closest("button[data-act]");
+  if(!btn) return;
+  var id = btn.dataset.id;
+  var e = state.entries.find(function(x){ return x.id===id; });
+  if(!e) return;
+
+  if(btn.dataset.act==="return"){ e.returned=true; e.returnedAt=todayStr(); putEntry(e); toast("返却にしました"); }
+  else if(btn.dataset.act==="unreturn"){ e.returned=false; e.returnedAt=null; putEntry(e); }
+  else if(btn.dataset.act==="edit"){ openSheet(e); }
+  else if(btn.dataset.act==="del"){
+    if(window.confirm(e.category+" の持ち出し記録を削除しますか？")) { removeEntry(id); toast("削除しました"); }
+  }
+});
+
+document.getElementById("stockEdit").addEventListener("change", function(ev){
+  var inp = ev.target.closest("[data-stock]");
+  if(!inp) return;
+  var n = parseInt(inp.value,10);
+  state.meta.stock[inp.dataset.stock] = isNaN(n)||n<0 ? 0 : n;
+  saveMeta();
+});
+document.getElementById("stockEdit").addEventListener("click", function(ev){
+  var b = ev.target.closest("[data-rmitem]");
+  if(!b) return;
+  var name = b.dataset.rmitem;
+  if(!window.confirm(name+" を備品リストから外しますか？（過去の記録は残ります）")) return;
+  delete state.meta.stock[name];
+  saveMeta();
+});
+document.getElementById("addItem").onclick = function(){
+  var inp = document.getElementById("newItem");
+  var v = inp.value.trim();
+  if(!v) return;
+  if(state.meta.stock[v]!=null){ toast("すでにあります"); return; }
+  state.meta.stock[v] = 0; inp.value=""; saveMeta();
+};
+
+document.getElementById("catTokens").addEventListener("click", function(ev){
+  var b = ev.target.closest("[data-rmcat]");
+  if(!b) return;
+  state.meta.categories = state.meta.categories.filter(function(c){ return c!==b.dataset.rmcat; });
+  saveMeta();
+});
+document.getElementById("addCat").onclick = function(){
+  var inp = document.getElementById("newCat");
+  var v = inp.value.trim();
+  if(!v) return;
+  if(state.meta.categories.indexOf(v)>=0){ toast("すでにあります"); return; }
+  state.meta.categories.push(v); inp.value=""; saveMeta();
+};
+
+document.getElementById("fbSave").onclick = function(){
+  connectFirebase(document.getElementById("fbCfg").value.trim(), true);
+};
+document.getElementById("fbClear").onclick = function(){
+  localStorage.removeItem(LS.cfg);
+  document.getElementById("fbMsg").textContent = "解除しました。ページを開き直すと端末内保存に戻ります。";
+};
+document.getElementById("exportBtn").onclick = function(){
+  var out = JSON.stringify({ meta: state.meta, entries: state.entries }, null, 2);
+  window.prompt("コピーして保存してください", out);
+};
+
+/* ---------- boot ---------- */
+function boot(){
+  loadLocal();
+  render();
+  if(FIREBASE_CONFIG && FIREBASE_CONFIG.databaseURL){
+    var txt = JSON.stringify(FIREBASE_CONFIG);
+    document.getElementById("fbCfg").value = txt;
+    setSyncPending(true);
+    connectFirebase(txt, false);
+    return;
+  }
+  var saved = null;
+  try{ saved = localStorage.getItem(LS.cfg); }catch(err){}
+  if(saved){
+    document.getElementById("fbCfg").value = saved;
+    setSyncPending(true);
+    connectFirebase(saved, false);
+  }
+}
+
+function unlocked(){
+  try{ return localStorage.getItem(LS.gate)===PASSCODE; }catch(err){ return false; }
+}
+function tryUnlock(){
+  var pw = document.getElementById("gatePw").value.trim();
+  if(pw === PASSCODE){
+    try{ localStorage.setItem(LS.gate, PASSCODE); }catch(err){}
+    document.getElementById("gate").hidden = true;
+    boot();
+  } else {
+    document.getElementById("gateErr").textContent = "合言葉が違います。";
+    document.getElementById("gatePw").value = "";
+    document.getElementById("gatePw").focus();
+  }
+}
+document.getElementById("gateGo").onclick = tryUnlock;
+document.getElementById("gatePw").addEventListener("keydown", function(ev){
+  if(ev.key === "Enter") tryUnlock();
+});
+
+if(unlocked()){ boot(); }
+else { document.getElementById("gate").hidden = false; }
+
+})();
+</script>
+</body>
+</html>
