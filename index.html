@@ -265,9 +265,9 @@ details.settings .body{padding-top:13px}
       </div>
 
       <div class="setblock">
-        <h4>全コーチで共有する（Firebase）</h4>
-        <p class="hint">U-9アプリと同じ Firebase プロジェクトの firebaseConfig を、そのまま貼り付けてください。データは <code>equipment/2026/</code> 以下に入るので、U-9の記録には触れません。databaseURL が必須です。</p>
-        <textarea id="fbCfg" placeholder='{ "apiKey": "...", "authDomain": "...", "databaseURL": "https://yahagi-u9-default-rtdb.asia-southeast1.firebasedatabase.app", "projectId": "yahagi-u9", "appId": "..." }'></textarea>
+        <h4>接続先の変更（通常は操作不要）</h4>
+        <p class="hint">接続情報はこのページに組み込み済みです。通常は操作不要で、開いた時点で共有に繋がります。接続先を変える必要があるときだけ、ここに firebaseConfig を貼り付けてください。</p>
+        <textarea id="fbCfg" placeholder='{ "apiKey": "...", "authDomain": "...", "databaseURL": "...", "projectId": "...", "appId": "..." }'></textarea>
         <div class="addrow">
           <button id="fbSave" style="flex:1">接続して共有を始める</button>
           <button id="fbClear">解除</button>
@@ -276,7 +276,7 @@ details.settings .body{padding-top:13px}
       </div>
 
       <div class="setblock">
-        <h4>データ</h4>
+        <h4>データの書き出し</h4>
         <button class="ghost" id="exportBtn" style="margin-top:0">JSONで書き出す</button>
       </div>
 
@@ -337,7 +337,7 @@ details.settings .body{padding-top:13px}
 (function(){
 "use strict";
 
-// ===== ここに U-9アプリと同じ firebaseConfig を貼り付けると、全員が自動で共有に繋がります =====
+// ===== Firebase接続設定（プロジェクト: yahagi-equipment）。ここを書き換えると接続先が変わります =====
 var FIREBASE_CONFIG = {
   apiKey: "AIzaSyB_yNKy3YRYo_vL0Dj6whqi7TTubj_Spb0",
   authDomain: "yahagi-equipment.firebaseapp.com",
@@ -350,7 +350,7 @@ var FIREBASE_CONFIG = {
 // ==========================================================================================
 
 var FIREBASE_VERSION = "10.12.2";
-var DB_ROOT = "equipment/2026";      // U-9アプリの seasons/ とは別の枝
+var DB_ROOT = "equipment/2026";      // 年度が変わったら 2027 などに
 var PASSCODE = "yahagi2026";
 var LS = { data:"yahagi_eq_entries", meta:"yahagi_eq_meta", cfg:"yahagi_eq_fbcfg", gate:"yahagi_eq_gate" };
 
