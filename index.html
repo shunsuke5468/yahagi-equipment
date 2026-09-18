@@ -198,7 +198,7 @@ details.settings .body{padding-top:13px}
 <div id="gate" hidden>
   <div class="box">
     <h2>矢作SC 備品持ち出し表</h2>
-    <p>コーチ用のページです。合言葉を入力してください。</p>
+    <p>MG用のページです。合言葉を入力してください。</p>
     <input type="password" id="gatePw" inputmode="text" autocomplete="off" placeholder="合言葉" aria-label="合言葉">
     <button id="gateGo">開く</button>
     <div class="err" id="gateErr"></div>
@@ -766,7 +766,7 @@ function connectFirebase(cfgText, announce){
 
       try{ localStorage.setItem(LS.cfg, cfgText); }catch(err){}
       setSyncPending(false);
-      setMode("全コーチで共有中（"+(cfg.projectId||"接続済み")+"）", true);
+      setMode("全MGで共有中（"+(cfg.projectId||"接続済み")+"）", true);
       document.getElementById("fbMsg").textContent = "接続しました。";
       if(announce) toast("共有を開始しました");
     }
